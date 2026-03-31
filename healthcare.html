@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>دليل الرعاية الصحية | هيئة قضايا الدولة</title>
+
+    <!-- Meta Tags -->
+    <meta name="description" content="دليل الرعاية الصحية والجهات المتعاقدة">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Fonts: Cairo & Alexandria -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            800: '#9f1239',
+                            900: '#881337',
+                            950: '#4c0519', // Rose Theme for Health
+                        },
+                        neutral: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+
+            <!-- Logo area -->
+            <div class="flex items-center gap-3">
+                <a href="index.html"
+                    class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                    title="الرئيسية">
+                    <i class="fa-solid fa-house text-slate-600 dark:text-gold-400 text-lg"></i>
+                </a>
+                <img src="assets/images/logo.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow-sm">
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">هيئة قضايا الدولة</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">دليل الرعاية الصحية</p>
+                </div>
+            </div>
+
+            <!-- Theme Toggle -->
+            <button id="themeToggle"
+                class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-gold-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all focus:outline-none focus:ring-2 focus:ring-gold-500">
+                <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+                <i class="fa-solid fa-sun text-lg hidden dark:block"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-6">
+
+        <!-- Search & Filters -->
+        <div
+            class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-5 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+                <!-- Search -->
+                <div class="md:col-span-4 lg:col-span-1">
+                    <label class="block text-xs font-medium text-slate-500 mb-1">بحث عام</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-search text-slate-400"></i>
+                        </div>
+                        <input type="text" id="searchInput"
+                            class="block w-full p-2.5 pr-10 text-sm border border-slate-300 rounded-lg bg-slate-50 focus:ring-primary-800 focus:border-primary-800 dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+                            placeholder="اسم الطبيب، المستشفى...">
+                    </div>
+                </div>
+
+                <!-- Governorate Filter -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-500 mb-1">المحافظة</label>
+                    <select id="govFilter"
+                        class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-primary-800 focus:border-primary-800 block w-full p-2.5 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
+                        <option value="">كل المحافظات</option>
+                    </select>
+                </div>
+
+                <!-- Type Filter -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-500 mb-1">نوع الجهة</label>
+                    <select id="typeFilter"
+                        class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-primary-800 focus:border-primary-800 block w-full p-2.5 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
+                        <option value="">كل الجهات</option>
+                    </select>
+                </div>
+
+                <!-- Specialty Filter -->
+                <div>
+                    <label class="block text-xs font-medium text-slate-500 mb-1">التخصص</label>
+                    <select id="specFilter"
+                        class="bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-primary-800 focus:border-primary-800 block w-full p-2.5 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
+                        <option value="">كل التخصصات</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Info -->
+        <div class="flex justify-between items-center mb-4">
+            <p class="text-sm text-slate-500 dark:text-slate-400">تم العثور على <span id="countValue"
+                    class="font-bold text-primary-800 dark:text-primary-100">0</span> نتيجة</p>
+        </div>
+
+        <!-- Grid -->
+        <div id="resultsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <!-- Cards injected here -->
+        </div>
+
+        <!-- Loading / No Results -->
+        <div id="statusMessage" class="hidden text-center py-10">
+            <div
+                class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 mb-4">
+                <i class="fa-solid fa-file-medical text-3xl text-slate-400"></i>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-lg">لا توجد نتائج مطابقة للبحث</p>
+        </div>
+
+        <!-- Pagination / Load More -->
+        <div class="text-center mt-8 pb-8">
+            <button id="loadMoreBtn"
+                class="hidden px-8 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded-full hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors font-medium text-sm shadow-sm">
+                عرض المزيد
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+        // --- State ---
+        let allData = [];
+        let filteredData = [];
+        const ITEMS_PER_PAGE = 24;
+        let currentPage = 1;
+
+        // --- Elements ---
+        const grid = document.getElementById('resultsGrid');
+        const countSpan = document.getElementById('countValue');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const statusMsg = document.getElementById('statusMessage');
+        const govSelect = document.getElementById('govFilter');
+        const typeSelect = document.getElementById('typeFilter');
+        const specSelect = document.getElementById('specFilter');
+        const searchInput = document.getElementById('searchInput');
+
+        // --- Init ---
+        async function init() {
+            setupTheme();
+            await loadData();
+            populateFilters();
+            render();
+
+            // Event Listeners
+            searchInput.addEventListener('input', handleFilter);
+            govSelect.addEventListener('change', handleFilter);
+            typeSelect.addEventListener('change', handleFilter);
+            specSelect.addEventListener('change', handleFilter);
+            loadMoreBtn.addEventListener('click', () => {
+                currentPage++;
+                renderBatch();
+            });
+        }
+
+        function setupTheme() {
+            const themeToggle = document.getElementById('themeToggle');
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+
+        async function loadData() {
+            try {
+                const res = await fetch('data/healthcare.json');
+                allData = await res.json();
+                filteredData = [...allData];
+            } catch (err) {
+                console.error("Failed to fetch data", err);
+                grid.innerHTML = '<p class="text-red-500 text-center col-span-full">فشل في تحميل البيانات</p>';
+            }
+        }
+
+        function populateFilters() {
+            // Helper to get unique sorted values
+            const getUnique = (field) => [...new Set(allData.map(d => d[field]).filter(Boolean))].sort();
+
+            const govs = getUnique('government');
+            const types = getUnique('type');
+            const specs = getUnique('specialty');
+
+            govs.forEach(g => govSelect.add(new Option(g, g)));
+            types.forEach(t => typeSelect.add(new Option(t, t)));
+            specs.forEach(s => specSelect.add(new Option(s, s)));
+        }
+
+        function handleFilter() {
+            const term = searchInput.value.toLowerCase();
+            const gov = govSelect.value;
+            const type = typeSelect.value;
+            const spec = specSelect.value;
+
+            filteredData = allData.filter(item => {
+                const matchName = (item.name || '').toLowerCase().includes(term) || (item.specialty || '').toLowerCase().includes(term);
+                const matchGov = !gov || item.government === gov;
+                const matchType = !type || item.type === type;
+                const matchSpec = !spec || item.specialty === spec;
+                return matchName && matchGov && matchType && matchSpec;
+            });
+
+            currentPage = 1;
+            grid.innerHTML = ''; // Clear for new results
+            render();
+        }
+
+        function render() {
+            countSpan.textContent = filteredData.length;
+
+            if (filteredData.length === 0) {
+                statusMsg.classList.remove('hidden');
+                grid.innerHTML = '';
+                loadMoreBtn.classList.add('hidden');
+                return;
+            } else {
+                statusMsg.classList.add('hidden');
+            }
+
+            renderBatch();
+        }
+
+        function renderBatch() {
+            const start = (currentPage - 1) * ITEMS_PER_PAGE;
+            const end = start + ITEMS_PER_PAGE;
+            const batch = filteredData.slice(start, end);
+
+            const fragment = document.createDocumentFragment();
+            batch.forEach(item => {
+                const card = createCard(item);
+                fragment.appendChild(card);
+            });
+
+            if (currentPage === 1) {
+                grid.innerHTML = '';
+                grid.appendChild(fragment);
+            } else {
+                grid.appendChild(fragment);
+            }
+
+            // Show/Hide Load More
+            if (end >= filteredData.length) {
+                loadMoreBtn.classList.add('hidden');
+            } else {
+                loadMoreBtn.classList.remove('hidden');
+            }
+        }
+
+        function createCard(item) {
+            const div = document.createElement('div');
+            div.className = 'bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-5 hover:shadow-md transition-all hover:translate-y-[-2px] duration-200';
+
+            // Icon logic
+            let iconClass = 'fa-user-doctor';
+            if (item.type && item.type.includes('ستشفي')) iconClass = 'fa-hospital';
+            if (item.type && item.type.includes('معمل')) iconClass = 'fa-flask';
+            if (item.specialty && item.specialty.includes('اسنان')) iconClass = 'fa-tooth';
+            if (item.specialty && item.specialty.includes('عيون')) iconClass = 'fa-eye';
+
+            div.innerHTML = `
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-10 h-10 rounded-full bg-primary-50 dark:bg-primary-900/20 text-primary-800 dark:text-primary-200 flex items-center justify-center">
+                        <i class="fa-solid ${iconClass} text-lg"></i>
+                    </div>
+                    ${item.government ? `<span class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600">${item.government}</span>` : ''}
+                </div>
+                
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1 leading-snug">${item.name}</h3>
+                
+                <div class="flex flex-wrap gap-2 mb-4">
+                     ${item.specialty ? `<span class="text-xs text-primary-800 dark:text-primary-200 bg-primary-50 dark:bg-primary-900/30 px-2 py-1 rounded-md">${item.specialty}</span>` : ''}
+                     ${item.type && item.type !== 'الاطباء' ? `<span class="text-xs text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md border border-slate-200 dark:border-slate-700">${item.type}</span>` : ''}
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 dark:border-slate-700 mt-auto">
+                    <a href="https://www.google.com/maps/search/${encodeURIComponent(item.name + ' ' + (item.government || ''))}" target="_blank" class="text-sm font-medium text-gold-600 hover:text-gold-700 dark:text-gold-500 dark:hover:text-gold-400 flex items-center gap-1 w-fit">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        عرض على الخريطة
+                    </a>
+                </div>
+            `;
+            return div;
+        }
+
+        // Run
+        init();
+
+    </script>
+</body>
+
+</html>

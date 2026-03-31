@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>دليل المقرات | هيئة قضايا الدولة</title>
+
+    <!-- Meta Tags -->
+    <meta name="description" content="دليل مقرات هيئة قضايا الدولة">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Fonts: Cairo & Alexandria -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#082f49', // Deep Navy
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706', // Dignified Gold
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+
+            <!-- Logo area -->
+            <div class="flex items-center gap-3">
+                <a href="index.html"
+                    class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                    title="الرئيسية">
+                    <i class="fa-solid fa-house text-slate-600 dark:text-gold-400 text-lg"></i>
+                </a>
+                <img src="assets/images/logo.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow-sm">
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 dark:text-white leading-tight">هيئة قضايا الدولة</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">دليل المقرات</p>
+                </div>
+            </div>
+
+            <!-- Theme Toggle -->
+            <button id="themeToggle"
+                class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-gold-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all focus:outline-none focus:ring-2 focus:ring-gold-500">
+                <i class="fa-solid fa-moon text-lg dark:hidden"></i>
+                <i class="fa-solid fa-sun text-lg hidden dark:block"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-6">
+
+        <!-- Search -->
+        <div class="mb-6">
+            <div class="relative max-w-lg mx-auto">
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-search text-slate-400"></i>
+                </div>
+                <input type="text" id="searchInput"
+                    class="block w-full p-3 pr-10 text-sm md:text-base text-slate-900 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-gold-500 focus:border-gold-500 dark:bg-slate-900 dark:border-slate-700 dark:placeholder-slate-400 dark:text-white transition-all shadow-sm"
+                    placeholder="بحث عن مقر...">
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div id="officesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Offices injected here -->
+        </div>
+
+    </main>
+
+    <script>
+        // Init Theme
+        const themeToggle = document.getElementById('themeToggle');
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Load Data
+        let allOffices = [];
+
+        async function loadOffices() {
+            try {
+                const res = await fetch('data/offices.json');
+                allOffices = await res.json();
+                renderOffices(allOffices);
+            } catch (err) {
+                console.error('Failed to load offices', err);
+            }
+        }
+
+        function renderOffices(data) {
+            const grid = document.getElementById('officesGrid');
+            grid.innerHTML = data.map(office => `
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-5 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">${office.name}</h3>
+                        <span class="text-xs bg-gold-100 text-gold-700 px-2 py-1 rounded-full">${office.type || 'فرع'}</span>
+                    </div>
+                    
+                    <div class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                        <p class="flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-slate-400 w-5"></i>
+                            ${office.address}
+                        </p>
+                         <p class="flex items-center gap-2">
+                            <i class="fa-solid fa-map text-slate-400 w-5"></i>
+                            ${office.governorate}
+                        </p>
+                        ${office.phone ? `
+                        <p class="flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-slate-400 w-5"></i>
+                            <a href="tel:${office.phone}" class="hover:text-gold-500 dir-ltr">${office.phone}</a>
+                        </p>` : ''}
+                        ${office.manager ? `
+                        <p class="flex items-center gap-2">
+                            <i class="fa-solid fa-user-tie text-slate-400 w-5"></i>
+                            ${office.manager}
+                        </p>` : ''}
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-end">
+                        <a href="https://www.google.com/maps/search/${encodeURIComponent(office.name + ' ' + office.address)}" target="_blank" class="text-gold-600 hover:text-gold-700 text-sm font-medium flex items-center gap-1">
+                            <i class="fa-solid fa-map-location-dot"></i> الموقع على الخريطة
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Search
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allOffices.filter(o =>
+                o.name.toLowerCase().includes(term) ||
+                o.governorate.toLowerCase().includes(term) ||
+                o.address.toLowerCase().includes(term)
+            );
+            renderOffices(filtered);
+        });
+
+        loadOffices();
+    </script>
+</body>
+
+</html>

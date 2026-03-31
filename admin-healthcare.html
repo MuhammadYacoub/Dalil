@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة الرعاية الصحية | هيئة قضايا الدولة</title>
+
+    <!-- Meta -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Cairo', 'sans-serif'] },
+                    colors: {
+                        primary: { 800: '#9f1239', 900: '#881337' }, // Rose for Healthcare
+                        gold: { 500: '#f59e0b', 600: '#d97706' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 dark:bg-slate-900 text-slate-800 dark:text-gray-100 font-sans min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-slate-800 shadow-sm border-b border-gray-200 dark:border-slate-700 sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="admin.html" class="text-gray-500 hover:text-primary-900 transition-colors">
+                    <i class="fa-solid fa-arrow-right text-lg"></i>
+                </a>
+                <h1 class="text-xl font-bold text-primary-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-heart-pulse text-rose-600"></i> إدارة الرعاية الصحية
+                </h1>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button id="exportBtn"
+                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors">
+                    <i class="fa-solid fa-download"></i> تصدير JSON
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+
+        <!-- Controls -->
+        <div
+            class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-sm mb-6 flex flex-wrap gap-4 justify-between items-center">
+            <div class="relative flex-1 min-w-[300px]">
+                <input type="text" id="adminSearch"
+                    class="w-full p-2.5 pr-10 border border-gray-300 dark:border-slate-600 rounded-lg bg-gray-50 dark:bg-slate-900 focus:ring-2 focus:ring-rose-500 outline-none"
+                    placeholder="بحث عن اسم، تخصص، أو محافظة...">
+                <i class="fa-solid fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+            <button id="addBtn"
+                class="bg-primary-900 hover:bg-primary-800 text-white px-6 py-2.5 rounded-lg font-medium flex items-center gap-2 transition-colors shadow-lg shadow-primary-900/20">
+                <i class="fa-solid fa-plus"></i> إضافة جديد
+            </button>
+        </div>
+
+        <!-- Table Container -->
+        <div
+            class="bg-white dark:bg-slate-800 rounded-xl shadow-sm overflow-hidden border border-gray-200 dark:border-slate-700">
+            <div class="overflow-x-auto">
+                <table class="w-full text-right">
+                    <thead class="bg-gray-50 dark:bg-slate-900/50 border-b border-gray-200 dark:border-slate-700">
+                        <tr>
+                            <th class="p-4 text-sm font-semibold text-gray-600 dark:text-gray-400">الاسم</th>
+                            <th class="p-4 text-sm font-semibold text-gray-600 dark:text-gray-400">النوع</th>
+                            <th class="p-4 text-sm font-semibold text-gray-600 dark:text-gray-400">التخصص</th>
+                            <th class="p-4 text-sm font-semibold text-gray-600 dark:text-gray-400">المحافظة</th>
+                            <th class="p-4 text-sm font-semibold text-gray-600 dark:text-gray-400">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-gray-200 dark:divide-slate-700">
+                        <!-- Rows injected here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="p-4 border-t border-gray-200 dark:border-slate-700 flex justify-between items-center">
+                <span id="pageInfo" class="text-sm text-gray-500"></span>
+                <div class="flex gap-2">
+                    <button id="prevPage"
+                        class="px-3 py-1 bg-gray-100 dark:bg-slate-700 rounded hover:bg-gray-200 disabled:opacity-50">سابق</button>
+                    <button id="nextPage"
+                        class="px-3 py-1 bg-gray-100 dark:bg-slate-700 rounded hover:bg-gray-200 disabled:opacity-50">تالي</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Edit/Add Modal -->
+    <div id="itemModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm hidden">
+        <div
+            class="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-lg p-6 relative m-4 max-h-[90vh] overflow-y-auto">
+            <h2 id="modalTitle" class="text-xl font-bold mb-6 text-primary-900 dark:text-white border-b pb-2">إضافة /
+                تعديل</h2>
+
+            <form id="itemForm" class="grid grid-cols-1 gap-4">
+                <input type="hidden" id="editIndex">
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">الاسم</label>
+                    <input type="text" id="inpName"
+                        class="w-full p-2 border rounded-lg bg-gray-50 dark:bg-slate-900 border-gray-300 dark:border-slate-600"
+                        required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">النوع</label>
+                    <select id="inpType"
+                        class="w-full p-2 border rounded-lg bg-gray-50 dark:bg-slate-900 border-gray-300 dark:border-slate-600">
+                        <option value="الاطباء">الاطباء</option>
+                        <option value="المستشفيات">المستشفيات</option>
+                        <option value="معامل">معامل</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">التخصص</label>
+                    <input type="text" id="inpSpecialty"
+                        class="w-full p-2 border rounded-lg bg-gray-50 dark:bg-slate-900 border-gray-300 dark:border-slate-600">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">المحافظة</label>
+                    <input type="text" id="inpGov"
+                        class="w-full p-2 border rounded-lg bg-gray-50 dark:bg-slate-900 border-gray-300 dark:border-slate-600">
+                </div>
+
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="closeModal()"
+                        class="px-4 py-2 bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg">إلغاء</button>
+                    <button type="submit"
+                        class="px-6 py-2 bg-primary-900 text-white rounded-lg hover:bg-primary-800">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="js/admin-healthcare.js"></script>
+</body>
+
+</html>

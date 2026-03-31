@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> قضايا الدولة | Egypt Litigation Authority</title>
+    <meta name="description"
+        content="قضايا الدولة هي هيئة قضائية مستقلة مصرية تتولى حماية المال العام ومصالح الدولة في الدعاوى المدنية والإدارية والدولية.">
+    <meta name="keywords" content="هيئة,قضايا,الدولة,مصر,الحكومة وزارة,العدل">
+    <link href="Images/favicon_io/favicon-16x16.png" rel="icon" type="image/x-icon">
+    <meta name="author" content="Muhammad Yacoub">
+    <meta name="robots" content="index, follow">
+    <!-- openGraph & Twitter cards-->
+    <meta property="og:title" content="قضايا الدولة | State Litigation Authority">
+    <meta property="og:description"
+        content="الموقع الرسمي لهيئة قضايا الدولة | The official site of the Egyptian Litigation Authority">
+    <meta property="og:image"
+        content="https://img.youm7.com/ArticleImgs/2023/6/20/87571-%D9%85%D8%A8%D9%86%D9%89-%D9%87%D9%8A%D8%A6%D8%A9-%D9%82%D8%B6%D8%A7%D9%8A%D8%A7-%D8%A7%D9%84%D8%AF%D9%88%D9%84%D8%A9.jfif">
+    <meta property="og:url" content="http://sla.gov.eg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="قضايا الدولة | State Litigation">
+    <meta name="twitter:description"
+        content="الموقع الرسمي لهيئة قضايا الدولة | The official site fot Egyptian Litigation Authority">
+    <meta name="twitter:image"
+        content="https://upload.wikimedia.org/wikipedia/ar/1/1e/%D8%B4%D8%B9%D8%A7%D8%B1_%D9%82%D8%B6%D8%A7%D9%8A%D8%A7_%D8%A7%D9%84%D8%AF%D9%88%D9%84%D8%A9.jpg">
+    <!-- Add Google Fonts (Alexandria) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@200&family=Cairo:wght@500&display=swap"
+        rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="js/scripthc.js"></script>
+
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://kit.fontawesome.com/2b6376a73c.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="body">
+    <a href="../index.html" class="btn btn-light position-fixed top-0 end-0 m-3 shadow-sm border" style="z-index: 1000;"
+        title="الرئيسية">
+        <i class="fa-solid fa-house"></i> الرئيسية
+    </a>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="logo d-flex justify-content-center ">
+                    <img src="Images/logo PP.png" alt="" width="100px" height="100px" display="block">
+                    <br>
+                </div>
+                <div class="modal-header d-flex justify-content-center ">
+                    <h5 class="modal-title" id="loginModalLabel">تسجيل الدخول</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="username"></label>
+                            <input type="text" class="form-control" id="username" placeholder="إسم المستخدم">
+                        </div>
+                        <div class="form-group">
+                            <label for="password"></label>
+                            <input type="password" class="form-control" id="password" placeholder="كلمة المرور">
+                            <div class="modal-footer justify-content-center">
+
+                                <!-- rememberMe -->
+                                <div class="form-group form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                                    <script>
+                                        var rememberMe = document.getElementById('rememberMe');
+                                        function setRememberMe() {
+                                            var username = document.getElementById('username').value;
+                                            var password = document.getElementById('password').value;
+                                            if (rememberMe.checked) { // if checked
+                                                localStorage.setItem('username', username);
+                                                localStorage.setItem('password', password);
+
+                                            } else {
+                                                localStorage.removeItem('username');
+                                                localStorage.removeItem('password');
+                                            }
+                                        }
+                                    </script>
+                                    <label class="form-check-label" for="rememberMe">تذكرني</label>
+                                </div>
+
+
+
+
+                                <button onclick="validateLogin()" type="submit" class="btn btn-primary">تسجيل
+                                    الدخول</button>
+
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- card details modal -->
+    <div class="modal fade bd-example-modal-lg" id="selectedRowModal" tabindex="-1"
+        aria-labelledby="selectedRowModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="selectedRowModalLabel">المستشار</h5>
+                </div>
+                <div class="modal-body" id="selectedRowModalBody">
+                    <!-- Content will be dynamically added here -->
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" onclick="saveToPhone()">حفظ جهة اتصال</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- header -->
+    <div class="header">
+        <!-- <img src="Images/header.jpg" alt="header" class="header" width="100%" height="auto" > -->
+        <picture>
+            <!-- Desktop image -->
+            <source media="(min-width: 768px)" srcset="images/header.png" width="100%" height="auto">
+
+            <!-- Mobile image -->
+            <img src="images/header.jpg" alt="Header Image" width="100%" height="auto">
+        </picture>
+    </div>
+
+    <!-- NAV -->
+
+    <!-- <nav class="navbar navbar-expand-lg ">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+            <a class="nav-link mx-2" aria-current="page" href="index.html"><i class="fa-solid fa-users m-1"></i>دليل المستشارين</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link mx-2 active" href="hcare.html"><i class="fa-solid fa-user-doctor m-1"></i> دليل الخدمات الطبية</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mx-2" href="locations.html"><i class="fa-solid fa-map-location-dot m-1"></i> دليل مقرات الهيئة</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link mx-2" href="training.html"><i class="fa-solid fa-graduation-cap m-1"></i> البحث والتدريب</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link mx-2" href="commercial.html"><i class="fa-solid fa-shop m-1"></i> عروض تجارية</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link mx-2 disabled">طلبات</a>
+            </li>
+        </ul>
+     
+
+        <div class=" ">
+            <a href="http://sla.gov.eg" class="btn btn-primary btn-danger">نسخة تجريبية </a>
+        </div>
+</nav> -->
+    <!-- Dark Mode Toggle Switch -->
+    <div class=" self-align-end form-check form-switch mx-4">
+        <input class="form-check-input" type="checkbox" id="darkModeToggle" placeholder="Dark Mode">
+        <label class="form-check-label" for="darkModeToggle">
+    </div>
+
+
+
+
+
+
+    <!-- container -->
+    <div class="container ">
+        <h2 class="text-center m-3 mt-5">دليل الخدمات الطبية
+            <br>
+            <span class=" fs-4"> لمستشاري هيئة قضايا الدولة </span>
+        </h2>
+    </div>
+    <hr>
+    <main>
+        <!-- Filters Section -->
+        <div class="container" id="filters">
+            <div class="row">
+                <!-- Add filter options for governorate, specialty, and type -->
+                <div class="col mb-4">
+                    <label class="my-2 fs-4" for="governorateFilter">المحافظة</label>
+                    <select class="form-select" id="governorateFilter">
+                        <!-- The "All" option is added by default -->
+                    </select>
+                </div>
+                <div class="col mb-4">
+                    <label class="my-2 fs-4" for="typeFilter">نوع الجهة</label>
+                    <select class="form-select" id="typeFilter">
+                        <!-- The "All" option is added by default -->
+                    </select>
+                </div>
+                <div class="col mb-4">
+                    <label class="my-2 fs-4" for="specialtyFilter">التخصص</label>
+                    <select class="form-select" id="specialtyFilter">
+                        <!-- The "All" option is added by default -->
+                    </select>
+                </div>
+
+
+            </div>
+            <div class="col mb-4">
+                <label class="my-2 fs-4" for="globalSearch">البحث العام</label>
+                <input type="text" class="form-control" id="globalSearch" placeholder="ابحث هنا">
+            </div>
+            <div class="col mb-4">
+                <button class="btn btn-outline-primary" onclick="filterResults()">البحث</button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="container" id="results">
+            <img id="cardImage" class="card-img-top" alt="Card Image">
+        </div>
+
+
+        <script>
+            // Function to fetch JSON data
+            async function fetchData() {
+                const response = await fetch('hcaredata.json');
+                const data = await response.json();
+                return data;
+            }
+
+            // Function to filter and display results
+            async function filterResults() {
+                const healthcareData = await fetchData();
+
+                // Get selected values from filters
+                const selectedGovernorate = document.getElementById('governorateFilter').value;
+                const selectedSpecialty = document.getElementById('specialtyFilter').value;
+                const selectedType = document.getElementById('typeFilter').value;
+                const globalSearchQuery = document.getElementById('globalSearch').value.toLowerCase();
+
+                // Disable specialty filter if the selected type is "المستشفيات"
+                const specialtyFilter = document.getElementById('specialtyFilter');
+                specialtyFilter.disabled = selectedType === 'المستشفيات';
+
+                // Filter the data based on selections and global search query
+                const filteredData = healthcareData.filter(item => {
+                    return (
+                        (selectedGovernorate === 'All' || item.government === selectedGovernorate) &&
+                        (selectedSpecialty === 'All' || item.specialty === selectedSpecialty) &&
+                        (selectedType === 'All' || item.type === selectedType) &&
+                        (item.name.toLowerCase().includes(globalSearchQuery) ||
+                            item.government.toLowerCase().includes(globalSearchQuery) ||
+                            item.specialty.toLowerCase().includes(globalSearchQuery) ||
+                            item.type.toLowerCase().includes(globalSearchQuery))
+                    );
+                });
+
+                // Display filtered results
+                displayResults(filteredData);
+            }
+
+
+            // Function to display results
+            function displayResults(data) {
+                const resultsContainer = document.getElementById('results');
+
+                // Clear previous results
+                resultsContainer.innerHTML = '';
+
+                if (data.length === 0) {
+                    // Display a message when there are no results
+                    const noResultsMessage = document.createElement('div');
+                    noResultsMessage.innerHTML = `
+    
+    <div class="alert alert-danger" role="alert">
+  عذرا | لا يوجد نتائج   !
+</div>
+    
+    `;
+                    resultsContainer.appendChild(noResultsMessage);
+                } else {
+                    // Loop through filtered data and create result elements
+                    data.forEach(item => {
+                        const resultElement = document.createElement('div');
+                        // Customize the content based on your JSON structure
+                        resultElement.innerHTML = `
+                    <div class="hccard card mb-5 mt-3" style="width: 18rem;" >
+                        <div class=" card-body mb-4">
+                            <h3 class="card-title mb-2 fs-5 text-body-secondary">${item.name}</h3>
+                            <p class=" mb-2 mx-3 fs-6 text-danger-emphasis">${item.specialty}</p>
+                            <!-- <p class="card-text fs-6">${item.type}</p> --> <hr> <p class="card-text">${item.government}</p>
+                            
+                            <div class="card-footer bg-transparent border-0 d-flex justify-content-center ">
+                                <button class="button-70" role="button"  m-3" id="searchButton" onclick="searchOnGoogleMaps('${item.name}')">بحث عن الموقع</button>
+                            </div>
+                        </div>  
+                    </div>
+
+                   <!-- <p>${item.name}, ${item.government}, ${item.specialty}, ${item.type}
+                    </p> --> `;
+                        resultsContainer.appendChild(resultElement);
+                    });
+                }
+            }
+
+            // Function to populate dropdown options
+            function populateDropdownOptions(data, property, dropdownId) {
+                const dropdown = document.getElementById(dropdownId);
+
+                // Get unique values for the specified property
+                const uniqueValues = [...new Set(data.map(item => item[property]))];
+
+                // Add "All" option by default
+                dropdown.innerHTML = '<option value="All">الجميع</option>';
+
+                // Add other options
+                uniqueValues.forEach(value => {
+                    const option = document.createElement('option');
+                    option.value = value;
+                    option.textContent = value;
+                    dropdown.appendChild(option);
+                });
+            }
+
+            // Add event listeners to your filter elements
+            // Call filterResults() when filters change
+            document.getElementById('governorateFilter').addEventListener('change', filterResults);
+            document.getElementById('specialtyFilter').addEventListener('change', filterResults);
+            document.getElementById('typeFilter').addEventListener('change', filterResults);
+
+            // Initial data load and populate dropdown options
+            fetchData().then(data => {
+                populateDropdownOptions(data, 'government', 'governorateFilter');
+                populateDropdownOptions(data, 'specialty', 'specialtyFilter');
+                populateDropdownOptions(data, 'type', 'typeFilter');
+
+                // Initial data load
+                filterResults();
+            });
+
+
+            // Initial data load and populate dropdown options
+            fetchData().then(data => {
+                populateDropdownOptions(data, 'government', 'governorateFilter');
+                populateDropdownOptions(data, 'specialty', 'specialtyFilter');
+                populateDropdownOptions(data, 'type', 'typeFilter');
+
+                // Initial data load
+                filterResults();
+            });
+        </script>
+        <script>
+            // Function to fetch image URL from Google Images (placeholder for actual API call)
+            async function getImageUrlFromGoogle(itemName) {
+                // Replace this with a proper API call to fetch image URL based on the item name
+                // For simplicity, I'm using a placeholder URL
+                const placeholderImageUrl = 'https://via.placeholder.com/150'; // Replace with your API call
+                return placeholderImageUrl;
+            }
+
+        </script>
+
+    </main>
+
+
+    <!-- footer -->
+    <div class="footer "><img src="images/footer.jpg" alt="footer" class="footer" width="100%" height="auto"></div>
+
+    <!-- <script src="js/scripthc.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+        // Dark Mode
+        document.addEventListener('DOMContentLoaded', function () {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+
+            // Check if user already has a preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            } else if (localStorage.getItem('darkMode') === 'disabled') {
+                document.body.classList.remove('dark-mode');
+                darkModeToggle.checked = false;
+            } else {
+                // Set initial mode to light
+                document.body.classList.remove('dark-mode');
+                darkModeToggle.checked = false;
+            }
+
+            // Toggle function
+            darkModeToggle.addEventListener('change', function () {
+                if (darkModeToggle.checked) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+        });
+
+        // Search on Google Maps
+        function searchOnGoogleMaps(query) {
+            window.open(`https://www.google.com/maps/search/${query}`, '_blank');
+        }
+
+
+
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>
